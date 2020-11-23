@@ -1,0 +1,686 @@
+#include <iostream>
+#include <conio.h>
+#include <cmath>
+using namespace std;
+
+class operaciones //clase "padre"
+{
+	public:
+		int suma(int size);
+		int resta(int size);
+		int multiplicacion(int size);
+		float division(int x, int y);
+		int potencia(int x, int exp);
+};
+class geometria : public operaciones //clase que hereda los prototipos de la clase anterior
+{
+protected: //el usuario no se relaciona directamente con este apartado, son operaciones internas
+	int area_triangulo(int base, int altura);
+	int area_rectangulo(int base, int altura);
+	float area_circulo(int radio);
+	int perimetro_triangulo(int l1, int l2, int l3);
+	int perimetro_rectangulo(int base, int altura);
+	float perimetro_circulo(int diametro);
+	int volumen_rectangulo(int base, int altura, int prof);
+	int volumen_triangulo(int base, int altura, int prof);
+	float volumen_circulo(int radio, int altura);
+};
+class matrices : public geometria //clase que hereda los prototipos de las clases anteriores
+{
+	protected:
+		void mostrar(int size, int* matriz);//el usuario no tiene porque tener contacto con este apartado, no necesita que introduzca o realice algún cambio
+	public:
+		void matriz(int size, int* matriz);
+		void suma_matriz(int size, int* matriz1, int* matriz2, int* matriz3);
+		void resta_matriz(int size, int* matriz1, int* matriz2, int* matriz3);
+		void mult_matriz(int size, int* matriz1, int* matriz2, int* matriz3);
+		void transpuesta_matriz(int size, int* matriz, int* matriz3);
+};
+class vectores : public matrices//clase que hereda los prototipos de las clases anteriores
+{
+	protected:
+		float obtener_x(int ec1[3], int ec2[3]);
+		float obtener_y(int ec1[3], int ec2[3]);
+		float d_2puntos(int* vector1, int* vector2);
+		float magnitud_vector(int* vector);
+		void suma_vectores(int* vector1, int* vector2, int* vector3);
+	public:
+		void vector(int* vect);
+};
+class estadistica : public vectores//clase que hereda los prototipos de las clases anteriores
+{
+	protected:
+		float moda(int num, int A[]);
+		float promedio(int num, int A[]);
+		float mediana(int num, int A[]);
+	public:
+		void datos(int num, int A[]); //el usuario solo debe escribir los datos y el programa ejecutará las operaciones
+};
+class calculadora : public estadistica //clase que hereda los prototipos de las clases anteriores
+{
+	public:
+		void Aritmetica();
+		void Geometria();
+		void Matrices();
+		void Vectores();
+		void Estadistica();
+		int opcion; //controlara el menu de nuestra calculadora
+};
+
+int main() {
+	int menu;//para los cases del switch del main
+	calculadora elige; //para los cases del switch de la clase calculadora
+	cout << "Elige la opcion con la que deseas trabajar" << endl;
+	cout << " 1. Aritmetica \n 2. Geometrica \n 3. Matricial \n 4. Vectorial \n 5. Estadistica \n 6. SALIR" << endl;
+	cin >> menu;//selecciona la opcion con la que desea trabajar
+if(menu<6)
+{
+	switch (menu)
+	{
+		case 1:
+			cout << "Elige la operacion que deseas realizar" << endl;
+			cout << " 1. Suma \n 2. Resta \n 3. Multiplicacion \n 4. Division \n 5. Potencia" << endl;
+			cin >> elige.opcion;//elige entre las opciones presentadas arriba
+			elige.Aritmetica();//busca la funcion de la clase calculadora
+			break;
+		case 2:
+			cout << "Elige la operacion que deseas realizar" << endl;
+			cout << " 1. Area Triangulo \n 2. Area Rectangulo \n 3. Area Circulo \n"  << endl;
+			cout << "4. Perimetro Triangulo  \n 5. Perimetro Rectangulo \n 6. Perimetro Circulo \n "   << endl;
+			cout <<	"7. Volumen Prisma Triangular \n 8. Volumen Prisma Rectangular \n . Volumen Cilindro" << endl;
+			cin >> elige.opcion;//elige entre las opciones presentadas arriba
+			elige.Geometria();//busca la funcion de la clase calculadora
+			break;
+		case 3:
+			cout << "Elige la operacion que deseas realizar" << endl;
+			cout << " 1. Suma de matriz \n 2. Resta de matriz \n 3. Multiplicacion de matriz \n 4.Transpuesta" << endl;
+			cin >> elige.opcion;//elige entre las opciones presentadas arriba
+			elige.Matrices();//busca la funcion de la clase calculadora
+			break;
+		case 4:
+			cout << "Elige la operacion que deseas realizar" << endl;
+			cout << " 1. Solucion de ecuaciones \n 2. Distancia entre dos puntos \n 3. Magnitud de vector \n 4. Suma de vectores" << endl;
+			cin >> elige.opcion;//elige entre las opciones presentadas arriba
+			elige.Vectores();//busca la funcion de la clase calculadora
+			break;
+		case 5:
+			cout << "Elige la operacion que deseas realizar" << endl;
+			cout << " 1. Moda \n 2. Promedio \n 3. Mediana" << endl;
+			cin >> elige.opcion;//elige entre las opciones presentadas arriba
+			elige.Estadistica();//busca la funcion de la clase calculadora
+			break;
+			default:
+			break;
+		}
+	}
+	else{
+		cout << "Espero haberte ayudado, hasta la proxima... " << endl;
+	}
+}
+////COMIENZA EL DESARROLLO DE LAS FUNCIONES DE LA CLASE OPERACIONES
+int operaciones::suma(int size)//desarrollo de la funcion
+ {
+	int x, s=0;
+	for (int i = 0; i < size; i++)
+	{
+		cout << " \n Num. " << (i + 1) << " : ";
+		cin >> x;
+		s = s + x;
+	}
+	cout << "La suma total es: " << endl;
+	return s;
+}
+int operaciones::resta(int size)//desarrollo de la funcion
+{
+	int x, r=0;
+	for (int i = 0; i < size; i++)
+	{
+		cout << " \n Num. " << (i + 1) << " : ";
+		cin >> x;
+		if(i==0)
+		{
+			r=x;
+		}
+		else if(i>0)
+		{
+			r= r-x;
+		}
+	}
+	cout << "La diferencia es: " << endl;
+	return r;
+}
+int operaciones::multiplicacion(int size)//desarrollo de la funcion
+ {
+	int x, producto = 1;
+	for (int i = 0; i < size; i++)
+	 {
+		cout << " \n Num. " << (i + 1) << " : ";
+		cin >> x;
+		producto = producto * x;
+	}
+	cout << "El producto final es: " << endl;
+	return producto;
+}
+float operaciones::division(int x, int y)
+{
+	cout << "El cociente es " << endl;
+	return (x/y);
+}
+int operaciones::potencia(int x,int pot)
+{
+	int resultado=1;
+	for (int i = 0; i < pot; i++)
+	{
+		resultado = resultado * x;
+	}
+	cout << "El resultado es: " << endl;
+	return resultado;
+}
+////COMIENZA EL DESARROLLO DE LAS FUNCIONES DE LA CLASE GEOMETRIA
+int geometria::area_triangulo(int base, int altura)
+{
+	return(base*altura)/2;
+}
+int geometria::area_rectangulo(int base, int altura)
+{
+	return(base*altura);
+}
+float geometria::area_circulo(int radio)
+{
+	return(3.1416*(radio^2));
+}
+int geometria::perimetro_triangulo(int l1, int l2, int l3)
+{
+	return(l1+l2+l3);
+}
+int geometria::perimetro_rectangulo(int base, int altura)
+{
+	return((2*base)+(2*altura));
+}
+float geometria::perimetro_circulo(int diametro)
+{
+	return (3.1416*diametro);
+}
+int geometria::volumen_triangulo(int base, int altura, int prof)
+{
+	return (area_triangulo(base, altura)*prof);
+}
+int geometria::volumen_rectangulo(int base, int altura, int prof)
+{
+	return (area_rectangulo(base, altura)*prof);
+}
+float geometria::volumen_circulo(int radio, int altura)
+{
+	return (area_circulo(radio)*altura);
+}
+////COMIENZA EL DESARROLLO DE LAS FUNCIONES DE LA CLASE MATRICES
+void matrices::matriz(int size, int* matriz)
+{
+	for (int i = 0; i < size; i++)
+	{
+		for (int j = 0; j < size; j++)
+		{
+			cout << "Num [" << j << "][" << i << "]: ";
+			cin >> *(matriz + j + (i * size));
+		}
+	}
+}
+void matrices::mostrar(int size, int* matriz)
+{
+	for (int i = 0; i < size; i++) {
+		for (int j = 0; j < size; j++) {
+			cout << *(matriz + j + (i * size)) << " ";
+		}
+		cout << endl;
+	}
+}
+void matrices::suma_matriz(int size, int* matriz1, int* matriz2, int* matriz3)
+{
+	for (int i = 0; i < size; i++)
+	{
+		for (int j = 0; j < size; j++)
+		{
+			(*(matriz3 + j + (i * size))) = (*(matriz1 + j + (i * size))) + (*(matriz2 + j + (i * size)));
+		}
+	}
+}
+void matrices::resta_matriz(int size, int* matriz1, int* matriz2, int* matriz3)
+ {
+	for (int i = 0; i < size; i++)
+	{
+		for (int j = 0; j < size; j++)
+		{
+			(*(matriz3 + j + (i * size))) = (*(matriz1 + j + (i * size))) - (*(matriz2 + j + (i * size)));
+		}
+	}
+}
+void matrices::mult_matriz(int size, int* matriz1, int* matriz2, int* matriz3)
+{
+	int nuevo = 0;
+	for (int i = 0; i < size; i++) {
+		for (int j = 0; j < size; j++) {
+			for (int k = 0; k < size; k++)
+			{
+				nuevo = nuevo + ((*(matriz1 + k + (i * size))) * (*(matriz2 + j + (k * size))));
+			}
+			*(matriz3 + j + (i * size)) = nuevo;
+			nuevo = 0;
+		}
+	}
+}
+void matrices::transpuesta_matriz(int size, int* matriz, int* matriz3)
+{
+	for (int i = 0; i < size; i++) {
+		for (int j = 0; j < size; j++) {
+
+			*(matriz3 + j + (i * size)) = *(matriz + i + (j * size));
+		}
+	}
+}
+////COMIENZA EL DESARROLLO DE LAS FUNCIONES DE LA CLASE VECTORES
+float vectores::obtener_x(int ec1[3], int ec2[3])
+{
+	int determinante;
+	determinante = (ec1[0] * ec2[1]) - (ec1[1] * ec2[0]);
+	return ((((ec1[2]) * (ec2[1])) - ((ec2[2]) * (ec1[1]))) / determinante);
+}
+float vectores::obtener_y(int ec1[3], int ec2[3])
+{
+	int determinante;
+	determinante = ((((ec1[0]) * (ec2[1]))) - (((ec1[1]) * ec2[0])));
+	return ((((ec1[0]) * (ec2[2])) - ((ec1[2]) * (ec2[0]))) / determinante);
+}
+void vectores::vector(int* vect)
+{
+	for (int i = 0; i < 3; i++)
+	{
+		cin >> *(vect + i);
+	}
+}
+float vectores::d_2puntos(int* vector1, int* vector2)
+{
+	int dato[2], discriminante;
+	for (int i = 0; i < 2; i++)
+	 {
+		dato[i] = ((*(vector2 + i)) - (*(vector1 + i)));
+	}
+	discriminante = (dato[0] * dato[0]) + (dato[1] * dato[1]);
+	return (sqrt(discriminante));
+}
+float vectores::magnitud_vector(int* vector)
+ {
+	int discriminante = ((*(vector)) * (*(vector))) + ((*(vector + 1)) * (*(vector + 1)));
+	return (sqrt(discriminante));
+}
+void vectores::suma_vectores(int* vector1, int* vector2, int* vector3)
+{
+	for (int i = 0; i < 2; i++)
+	 {
+		*(vector3 + i) = ((*(vector1 + i)) + (*(vector2 + i)));
+	}
+}
+////COMIENZA EL DESARROLLO DE LAS FUNCIONES DE LA CLASE ESTADISTICA
+void estadistica::datos(int num, int A[])
+ {
+	cout << "Introduce datos: "<<endl;
+	for (int i = 0; i < num; i++)
+	 {
+		cout << " Num. " << (i + 1) << " : ";
+		cin >> A[i];
+	}
+}
+float estadistica::moda(int num, int A[])
+ {
+	int s=0, a=1, m=s;
+	for (int i = 0; i < num; i++)	{
+    s = 0;
+		for (int j = 0; j < num; j++)
+		{
+			if (A[i] == A[j] && i != j)
+			 {
+				s = s + 1;
+			}
+		}
+		if (s >= m)
+		{
+			m = s; //guarda las repeticiones
+			a = i;
+		}
+	}
+	return A[a];
+}
+float estadistica::promedio(int num, int A[])
+{
+	int suma = 0;
+	for (int i = 0; i < num; i++)
+	{
+		suma = (suma + A[i]);
+	}
+	return division(suma, num);
+}
+float estadistica::mediana(int num, int A[])
+{
+	int aux;
+	for (int i = 0; i < num; i++){
+		for (int j = 0; j < num; j++){
+			if (A[j] > A[j + 1])
+			 {
+				aux = A[j];
+				A[j] = A[j + 1];
+				A[j + 1] = aux;
+			}
+		}
+	}
+	return A[(num/2)+1];
+}
+////COMIENZA A FUNCIONAR LA CLASE CALCULADORA CON LO QUE HEREDO DE LAS OTRAS CLASES
+void calculadora::Aritmetica()
+{
+	int x, y;
+	switch (opcion){
+		case 1:
+			cout << "Introduce la cantidad de datos a sumar: " << endl;
+			cin >> x;
+			cout << suma(x) << endl; //Imprime el resultado analizado por la funcion nombrada
+			break;
+		case 2:
+			cout << "Introduce la cantidad de datos a restar: " << endl;
+			cin >> x;
+			cout << resta(x) << endl;//Imprime el resultado analizado por la funcion nombrada
+			break;
+		case 3:
+			cout << "Introduce la cantidad de datos a multiplicar: " << endl;
+			cin >> x;
+			cout << multiplicacion(x) << endl;//Imprime el resultado analizado por la funcion nombrada
+			break;
+		case 4:
+			cout << "Ingresa los datos a dividir: " << endl;
+			cin >> x;
+			cout << " / " << endl;
+			cin >> y;
+			cout << division(x, y) << endl;//Imprime el resultado analizado por la funcion nombrada
+			break;
+		case 5:
+			cout << "Introduce el numero que deseas elevar: " << endl;
+			cin >> x;
+			cout << "Introduce la potencia a la que lo deseas elevar: ";
+			cin >> y;
+			cout << potencia(x, y) << endl;//Imprime el resultado analizado por la funcion nombrada
+			break;
+		default:
+			break;
+	}
+}
+void calculadora::Geometria() //comienza a funcionar la clase calculadora con lo que heredo
+ {
+	int x, y, z;
+		switch (opcion)//los cases tienen la funcion de "mutadores" analizan la variable para hacerla positiva
+		{
+			case 1:
+					cout << "Largo: ";
+					cin >> x;
+					cout << "Ancho: ";
+					cin >> y;
+					if (x < 0)
+					{
+						x = x * -1;
+					}
+					if (y < 0)
+					{
+						y = y * -1;
+					}
+						cout << "El area del triangulo es igual a: " << area_triangulo(x, y) << endl; //Imprime el resultado analizado por la funcion nombrada
+			break;
+		 case 2:
+					cout << "Base: ";
+					cin >> x;
+					cout << "Altura: ";
+					cin >> y;
+					if (x < 0)
+			 		{
+						x = x * -1;
+					}
+					if (y < 0)
+					{
+						y = y * -1;
+					}
+				cout << "El area del rectangulo es igual a:" << area_rectangulo(x, y) << endl; //Imprime el resultado analizado por la funcion nombrada
+			break;
+		case 3:
+			cout << "Base: ";
+			cin >> x;
+			if (x < 0)
+			{
+				x = x * -1;
+			}
+			cout << "El area del circulo es igual a: " << area_circulo(x) << endl; //Imprime el resultado analizado por la funcion nombrada
+			break;
+		case 4:
+			cout << "Lado 1: ";
+			cin >> x;
+			cout << "Lado 2: ";
+			cin >> y;
+			cout << "Lado 3: ";
+			cin >> z;
+			if (x < 0)
+			{
+				x = x * -1;
+			}
+			if (y < 0) {
+				y = y * -1;
+			}
+			if (z < 0) {
+				z = z * -1;
+			}
+			cout << "El perimetro del triangulo es igual a: " << perimetro_triangulo(x, y, z) << endl; //Imprime el resultado analizado por la funcion nombrada
+			break;
+		case 5:
+			cout << "Largo: ";
+			cin >> x;
+			cout << "Ancho: ";
+			cin >> y;
+			if (x < 0)
+			{
+				x = x * -1;
+			}
+			if (y < 0)
+			{
+				y = y * -1;
+			}
+			cout << "El perimetro del rectangulo es igual a: " << perimetro_rectangulo(x, y) << endl; //Imprime el resultado analizado por la funcion nombrada
+			break;
+		case 6:
+			cout << "Diametro: ";
+			cin >> x;
+				if (x < 0)
+			{
+				x = x * -1;
+			}
+			cout << "El perimetro del circulo es igual a: " << perimetro_circulo(x) << endl; //Imprime el resultado analizado por la funcion nombrada
+			break;
+		case 7:
+			cout << "Largo: ";
+			cin >> x;
+			cout << "Alto: ";
+			cin >> y;
+			cout << "Profundidad: ";
+			cin >> z;
+			if (x < 0)
+			{
+				x = x * -1;
+			}
+			if (y < 0) {
+				y = y * -1;
+			}
+			if (z < 0) {
+				z = z * -1;
+			}
+			cout << "El volumen del prisma triangular es igual a: " << volumen_triangulo(x, y, z) << endl; //Imprime el resultado analizado por la funcion nombrada
+			break;
+		case 8:
+			cout << "Largo: ";
+			cin >> x;
+			cout << "Alto: ";
+			cin >> y;
+			cout << "Profundidad: ";
+			cin >> z;
+			if (x < 0)
+			{
+				x = x * -1;
+			}
+			if (y < 0) {
+				y = y * -1;
+			}
+			if (z < 0) {
+				z = z * -1;
+			}
+			cout << "El volumen del prisma rectangular es igual a: " << volumen_rectangulo(x, y, z)  << endl; //Imprime el resultado analizado por la funcion nombrada
+			break;
+		case 9:
+			cout << "Radio: ";
+			cin >> x;
+			cout << "Profundidad: ";
+			cin >> y;
+			if (x < 0)
+			{
+				x = x * -1;
+			}
+			if (y < 0)
+			{
+				y = y * -1;
+			}
+			cout << "El volumen del cilindro es igual a: " << volumen_circulo(x, y) << endl; //Imprime el resultado analizado por la funcion nombrada
+			break;
+			default:
+			break;
+	}
+}
+void calculadora::Matrices() {//comienza a funcionar la clase calculadora con lo que heredo
+	int size=3;
+	int M1[9], M2[9], M3[9];
+	switch (opcion){
+		case 1:
+			cout << "Introduce los valores de las matrices de 3x3" << endl;
+			cout << "\n Matriz 1: " << endl;
+			matriz(size, (int*)M1); //Llama a la funcion para ingresar los datos
+			mostrar(size, (int*)M1); //imprime los datos ingresados
+			cout << "\n Matriz 2: " << endl;
+			matriz(size, (int*)M2);//Llama a la funcion para ingresar los datos
+			mostrar(size, (int*)M2);//imprime los datos ingresados
+			cout << "La suma de las matrices es: " << endl;
+			suma_matriz(size, (int*)M1, (int*)M2, (int*)M3);
+			mostrar(size, (int*)M3); //Imprime el resultado analizado por la funcion nombrada
+			cout << endl;
+			break;
+		case 2:
+			cout << "Introduce los valores de las matrices de 3x3" << endl;
+			cout << "\n Matriz 1: " << endl;
+			matriz(size, (int*)M1);
+			mostrar(size, (int*)M1);
+			cout << "\n Matriz 2: " << endl;
+			matriz(size, (int*)M2);
+			mostrar(size, (int*)M2);
+			cout << "La resta de las matrices es: " << endl;
+			resta_matriz(size, (int*)M1, (int*)M2, (int*)M3);
+			mostrar(size, (int*)M3);
+			cout << endl;
+			break;
+		case 3:
+			cout << "Introduce los valores de las matrices de 3x3" << endl;
+			cout << "\n Matriz 1:  " << endl;
+			matriz(size, (int*)M1);
+			mostrar(size, (int*)M1);
+			cout << "\n Matriz 2: " << endl;
+			matriz(size, (int*)M2);
+			mostrar(size, (int*)M2);
+			cout << "La multiplicacion de las matrices es: " << endl;
+			mult_matriz(size, (int*)M1, (int*)M2, (int*)M3);
+			mostrar(size, (int*)M3);
+			cout << endl;
+			break;
+		case 4:
+			cout << "Introduce los valores de tu matriz de 3x3" << endl;
+			cout << "Matriz: " << endl;
+			matriz(size, (int*)M1);
+			mostrar(size, (int*)M1);
+			cout << endl;
+			cout << "La Transpuesta de la matriz es: " << endl;
+			transpuesta_matriz(size, (int*)M1, (int*)M3);
+			mostrar(size, (int*)M3);
+			cout << endl;
+			break;
+			default:
+			break;
+	}
+}
+void calculadora::Vectores() {//comienza a funcionar la clase calculadora con lo que heredo
+	int ec1[3], ec2[3];
+	int v1[3], v2[3], v3[3];
+	switch (opcion){
+		case 1:
+			cout << "Introduce los valores de la ecuacion 1" << endl;
+			cout << "Termino con x = ";
+			cin >> ec1[0]; //ingresa el coeficiente del termino indicado
+			cout << "Termino con y = ";
+			cin >> ec1[1]; //ingresa el coeficiente del termino indicado
+			cout << "independiente = ";
+			cin >> ec1[2]; //ingresa el coeficiente del termino indicado
+			cout << "Dime los valores de la ecuacion 2" << endl;
+			cout << "Termino con x = ";
+			cin >> ec2[0];
+			cout << "Termino con y = ";
+			cin >> ec2[1];
+			cout << "independiente = ";
+			cin >> ec2[2];
+			cout << "El valor de x es:  " << obtener_x(ec1, ec2); //Imprime el resultado analizado por la funcion nombrada
+			cout << "El valor de y es:  " << obtener_y(ec1, ec2); //Imprime el resultado analizado por la funcion nombrada
+			break;
+		case 2:
+			cout << "Introduce los valores del vector 1" << endl;
+			vector((int*)v1);
+			cout << "Introduce los valores del vector 2" << endl;
+			vector((int*)v2);
+			cout << endl;
+			cout << "La distancia entre los 2 puntos es: " << d_2puntos((int*)v1, (int*)v2) << endl; //Imprime el resultado analizado por la funcion nombrada
+			break;
+		case 3:
+			cout << "Introduce los valores del vector" << endl;
+			vector((int*)v1);
+			cout << endl;
+			cout << "La magnitud del vector es: " << magnitud_vector((int*)v1); //Imprime el resultado analizado por la funcion nombrada
+			break;
+		case 4:
+			cout << "Introduce los valores del vector 1" << endl;
+			vector((int*)v1);
+			cout << "Introduce los valores del vector 2" << endl;
+			vector((int*)v2);
+			cout << endl;
+			cout << "La suma de los vectores es: " << endl;
+			suma_vectores((int*)v1, (int*)v2, (int*)v3); //Imprime el resultado analizado por la funcion nombrada
+			cout << "(" << v3[0] << ", " << v3[1] << ")" << endl;
+			break;
+			default:
+			break;
+	}
+}
+void calculadora::Estadistica() {//comienza a funcionar la clase calculadora con lo que heredo
+	int num, A[50];
+	cout << "Introduce el numero de datos que evaluaras" << endl;
+	cin >> num;
+	cout << "Introduce los datos" << endl;
+	datos(num, A); //manda allamar la funcion datos para ingresarlos
+	switch (opcion)
+	{
+		case 1:
+			cout << "Moda: " << moda(num, A) << endl;
+			break;
+		case 2:
+			cout << "Promedio: " << promedio(num, A) << endl;
+			break;
+		case 3:
+			cout << "Mediana: " << mediana(num, A) << endl;
+			break;
+		default:
+			break;
+	}
+}
