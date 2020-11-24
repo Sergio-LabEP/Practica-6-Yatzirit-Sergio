@@ -10,4 +10,5 @@ Cuenta con una serie de funciones a las que se puede accesar mediante el uso de 
 Dentro de éstas podmeos encontrar operaciones aritméticas, geométricas, matriciales, algebráciaas, vectoriales y estadísticas. Dentro de las cuales podemos realizar sumas, restas, multiplicaciones, divisiones; calcular perímetro, área y volumen de triángulos, rectánguloss y círculos; sua, resta, multiplicación y transposición de matrices de 3x3; resolución de ecaciones de primer grado con dos incógnitas por medio del método de determinantes, distancia entre dos puntos, magnitud y suma de vectores y finalmente, calcular la moda, media y mediana.
 
 Créditos: Yatzirit González y Sergio Silva 
-Profesor encargado de la materia: Mario de los Santos 
+
+
